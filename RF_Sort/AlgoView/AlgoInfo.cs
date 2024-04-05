@@ -158,6 +158,7 @@ namespace RF_Sort
 
         private void pickCollection()
         {
+            Clear();
             WriteLine(@"
               ================================================================
               |    [ ? ] Select an option for the collection to sort [ ? ]   |
@@ -215,7 +216,7 @@ namespace RF_Sort
             arrView(collection);
             Utils.enterToContinue();
 
-            Sorter(collection);
+            this.Sorter(collection);
 
             WriteLine($"[ {title} Complete! ]");
             WriteLine("[ Post-Sort ]");

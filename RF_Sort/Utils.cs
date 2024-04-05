@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace RF_Sort
@@ -34,7 +32,6 @@ namespace RF_Sort
             return list;
         }
 
-
         public static bool confrimChoice(string message)
         {
             Console.Write($"[ ? ] {message} [ ? ]\n>> Type 'yes' to confirm or anything else for 'no' ");
@@ -47,6 +44,8 @@ namespace RF_Sort
             Console.Write(@"
             [ ? ] Type a list of integers seperated by commas for your collection
                   (at least 5 integers)
+
+            [ ? ]  Input Here: 
             ");
             string input = Console.ReadLine();
             List<int> userCollection = new List<int>();
@@ -62,8 +61,6 @@ namespace RF_Sort
             }
             return userCollection;
         }
-
-
         // ouuu fancy lambda expression
         private static List<int> parseListput(string input)
         {
