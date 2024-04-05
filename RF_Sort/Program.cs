@@ -10,11 +10,11 @@ namespace RF_Sort
     {
         static void Main(string[] args)
         {
+            // Main UI - Note for Exam 2 you only 
+            // need to know Insertion, Shell & Quick Sort
+
             AlgoUI Menu = new AlgoUI();
             Menu.RunUI();
-
-
-
 
             // Individual UIs (run individually)
 
@@ -39,14 +39,11 @@ namespace RF_Sort
             // For HeapSort
             //Run(new HeapSort());
 
-
-
-
-
         }
 
         static void Run(AlgoInfo activeWindow) => activeWindow.Run();
 
+        //static void unitTest() => Debug.DoTest(aTest: Debug.UI);
 
 
 
