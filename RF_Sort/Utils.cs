@@ -14,12 +14,12 @@ namespace RF_Sort
             List<int> ranums = generateRandom();
             viewCollection(ranums);
             string prompt = "Would you like to use this collection?";
-            if (confrimChoice(prompt))
+            if (!confrimChoice(prompt))
             {
-                return ranums;
+                Console.WriteLine("[ Retrying... ]");
+                return HandleRandom();
             }
-            Console.WriteLine("[ Retrying... ]");
-            return GetUserCollection();
+            return ranums;
         }
 
         private static List<int> generateRandom(int size = 20, int min = 1, int max = 101)
@@ -96,8 +96,14 @@ namespace RF_Sort
             Console.Write("}\n");
         }
 
+        public static void enterToContinue()
+        {
+            Console.WriteLine("\n[ Press ENTER to Continue... ]\n");
+            Console.ReadLine();
+        }
+
         // NOTE ALL OF THE METHODS BELOW THIS I DID NOT MAKE 
-        // THEY WERE PROVIDED BY PROFESSOR DOWELL
+        // THEY WERE PROVIDED BY PROFESSOR DOWELL 
 
         public static void PrintHeader(List<int> aList, int start, int stop)
         {
@@ -216,11 +222,7 @@ namespace RF_Sort
             Console.WriteLine();
         }
 
-        public static void enterToContinue()
-        {
-            Console.WriteLine("\n[ Press ENTER to Continue... ]\n");
-            Console.ReadLine();
-        }
+
 
 
 

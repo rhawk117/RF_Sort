@@ -92,6 +92,7 @@ namespace RF_Sort
         public void Run()
         {
             Clear();
+
             ASCIIart();
             menuText();
 
