@@ -10,8 +10,8 @@ namespace RF_Sort
     {
         static void Main(string[] args)
         {
-            //uTestCollection();
-
+            Console.ForegroundColor = ConsoleColor.White;
+            Homework10.Part2();
         }
 
         static void uTestCollection()
@@ -24,5 +24,12 @@ namespace RF_Sort
             }
             Console.Write("}");
         }
+        static void uTestUI()
+        {
+            BubbleSort bubble = new BubbleSort();
+            bubble.Run();
+        }
+
+
     }
 }

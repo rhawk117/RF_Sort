@@ -23,7 +23,8 @@ namespace RF_Sort
             |        [ B ] - Bubble Sort                               |
             |        [ S ] - Selection Sort                            |
             |        [ I ] - Insertion Sort                            |
-            |        [ Q ] - Quick Sort                                |
+            |        [ Q ] - Quick Sort  
+                     [ L ] - Shell Sort
             |        [ M ] - Merge Sort                                |
             |        [ H ] - Heap Sort                                 |
             |        [ E ] - Exit                                      |

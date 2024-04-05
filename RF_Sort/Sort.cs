@@ -96,22 +96,24 @@ namespace RF_Sort
         // gaps must be sorted larger to smaller
         public static void ShellSort(List<int> aList, int[] gaps)
         {
-            Console.Write("---- ShellSort -----");
-            int tmp;
-            int hole;
+            Console.Write("---- Shell Sort -----");
+            int tmp, hole;
             int count = 0;
             Console.WriteLine();
             Console.Write("      ");
             Utils.PrintHeader(aList, 0, aList.Count);
             Console.Write("      ");
             Utils.Print(aList);
-            foreach (int gap in gaps)                  // determines increment sequence
+            // determines increment sequence
+            foreach (int gap in gaps)
             {
                 Console.Write("{0}     ", gap);
+                // goes thru array by steps
                 for (int next = gap; next < aList.Count; next++)
-                {  		       // goes thru array by steps
+                {
                     tmp = aList[next];
-                    for (hole = next; hole >= gap && tmp.CompareTo(aList[hole - gap]) < 0; hole -= gap) // slides tmp until in place
+                    // slides tmp until in place
+                    for (hole = next; hole >= gap && tmp.CompareTo(aList[hole - gap]) < 0; hole -= gap)
                     {
                         ++count;
                         aList[hole] = aList[hole - gap];
@@ -137,13 +139,11 @@ namespace RF_Sort
             for (int incNumber = IncrementList.Count - 1; incNumber >= 0; incNumber--)
             {
                 int gap = IncrementList[incNumber];
-
                 for (int next = gap; next < aList.Count; next++)
                 {  		            // goes thru array by steps
                     tmp = aList[next];
                     for (hole = next; hole >= gap &&
-                         tmp.CompareTo(aList[hole - gap]) < 0;
-                         hole -= gap) // slides tmp until in place 
+                    tmp.CompareTo(aList[hole - gap]) < 0; hole -= gap) // slides tmp until in place 
                     {
                         ++count;
                         aList[hole] = aList[hole - gap];
@@ -168,10 +168,7 @@ namespace RF_Sort
             Heapsort(aList, aList.Count);
         }
 
-        private static int LeftChild(int i)
-        {
-            return 2 * i + 1;
-        }
+        private static int LeftChild(int i) => 2 * i + 1;
 
         private static void PercDown(List<int> aList, int i, int size)
         {
@@ -234,28 +231,29 @@ namespace RF_Sort
 
         private static int MedianOfThree(List<int> aList, int left, int right)
         {
-            Console.Write("\tIn median3: {0}  {1}  {2}", aList[left], aList[(left + right) / 2], aList[right]);
+            Console.Write("Medians: Left={0}  Pivot={1}  Right={2}\n", aList[left], aList[(left + right) / 2], aList[right]);
             int center = (left + right) / 2;
 
             // center < left
             if (aList[center].CompareTo(aList[left]) < 0)
             {
-                Swap(aList, left, center);
+                Swap(aList, left, center); // swap left with center
             }
 
             // right < left
             if (aList[right].CompareTo(aList[left]) < 0)
             {
-                Swap(aList, left, right);
+                Swap(aList, left, right); // swap left with right
             }
 
             // right < center
             if (aList[right].CompareTo(aList[center]) < 0)
             {
-                Swap(aList, center, right);
+                Swap(aList, center, right); // swap center with right
             }
 
             Swap(aList, center, right);
+            Console.WriteLine($"Pivot Used -> {aList[right]}");
             return aList[right];
         }
         private static void Swap(List<int> aList, int lhs, int rhs)
@@ -264,45 +262,52 @@ namespace RF_Sort
             aList[lhs] = aList[rhs];
             aList[rhs] = temp;
         }
+        private static void quickSortHeader(List<int> aList, int left, int right)
+        {
+            Console.Write("{");
+            for (int j = left; j <= right; j++)
+            {
+                Console.Write("{0}", aList[j]);
+                if (j != right)
+                    Console.Write(" | ");
+            }
+            Console.Write("}");
+            Console.WriteLine(", {0}, {1}", left, right);
 
+
+            Console.WriteLine();
+        }
         public static void QuickSort(List<int> aList, int left, int right, int stopOn)
         {
             if (Math.Abs(left - right) < stopOn)
-                return;
-            else
             {
-                Console.Write("QuickSort({");
-                for (int j = left; j <= right; j++)
-                {
-                    Console.Write("{0}", aList[j]);
-                    if (j != right)
-                        Console.Write(", ");
-                }
-                Console.Write("}");
-                Console.WriteLine(", {0}, {1})", left, right);
-
-
-                Console.WriteLine();
-                int pivot = MedianOfThree(aList, left, right);
-                Console.Write("{0}", new String(' ', left * 4));
-                Utils.Print2(aList, left, right + 1);
-                int i = left; //, j = right;
-                for (int j = right; i < j;)
-                {
-                    while (aList[++i].CompareTo(pivot) < 0) ;
-                    while (pivot.CompareTo(aList[--j]) < 0) ;
-                    if (i < j)
-                        Swap(aList, i, j);
-                    else
-                        break;
-                }
-                Swap(aList, i, right);	// Move pivot back
-                Console.Write("{0}", new String(' ', left * 4));
-                Utils.Print3(aList, left, right + 1, i);
-
-                QuickSort(aList, left, i - 1, stopOn);	// sort small partition
-                QuickSort(aList, i + 1, right, stopOn);	// sort large partition
+                return;
             }
+
+            quickSortHeader(aList, left, right);
+            int pivot = MedianOfThree(aList, left, right);
+            Console.Write("{0}", new String(' ', left * 4));
+            Utils.Print2(aList, left, right + 1);
+            int i = left; //, j = right;
+            for (int j = right; i < j;)
+            {
+                while (aList[++i].CompareTo(pivot) < 0) ;
+
+                while (pivot.CompareTo(aList[--j]) < 0) ;
+
+                if (i < j) Swap(aList, i, j);
+
+                else break;
+            }
+            Console.WriteLine("[ Before pivot is moved backed... ]");
+            Utils.Print3(aList, left, right + 1, i);
+            Swap(aList, i, right);	// Move pivot back
+            Console.WriteLine("[ Pivot moved back... ]");
+            Console.Write("{0}", new String(' ', left * 4));
+            Utils.Print3(aList, left, right + 1, i);
+
+            QuickSort(aList, left, i - 1, stopOn);	// sort small partition
+            QuickSort(aList, i + 1, right, stopOn);	// sort large partition
         }
 
         // ================================================================================
@@ -310,14 +315,11 @@ namespace RF_Sort
         //    Selection Sort Algorithm
         //
         // ================================================================================
-        public static void SelectionSort(List<int> aList)
-        {
-            SelectionSort(aList, 0, aList.Count - 1);
-        }
+        public static void SelectionSort(List<int> aList) => SelectionSort(aList, 0, aList.Count - 1);
 
         private static void SelectionSort(List<int> aList, int low, int high)
         {
-            int temp;
+            int ptr;
             for (int i = low; i <= high; ++i)
             {
                 int min = aList[i];		// smallest element so far
@@ -334,25 +336,19 @@ namespace RF_Sort
 
                 if (i != min_index)
                 {
-                    temp = aList[i];
+                    ptr = aList[i];
                     aList[i] = min;
-                    aList[min_index] = temp;
+                    aList[min_index] = ptr;
                 }
             }
         }
-
-
 
         // ================================================================================
         //
         //    Merge Sort Algorithm
         //
         // ================================================================================
-        public static void RecMergeSort(List<int> aList)
-        {
-            RecMergeSort(aList, 0, aList.Count);
-        }
-
+        public static void RecMergeSort(List<int> aList) => RecMergeSort(aList, 0, aList.Count);
         private static void RecMergeSort(List<int> array, int start, int end)
         {
             if (end - start <= 1) return;
