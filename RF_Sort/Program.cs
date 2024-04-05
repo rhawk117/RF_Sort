@@ -10,25 +10,44 @@ namespace RF_Sort
     {
         static void Main(string[] args)
         {
-            Console.ForegroundColor = ConsoleColor.White;
-            Homework10.Part2();
+            AlgoUI Menu = new AlgoUI();
+            Menu.RunUI();
+
+
+
+
+            // Individual UIs (run individually)
+
+            // For BubbleSort
+            //Run(new BubbleSort());
+
+            // For SelectionSort
+            //Run(new SelectionSort());
+
+            // For InsertionSort
+            //Run(new InsertionSort());
+
+            // For QuickSort
+            //Run(new QuickSort());
+
+            // For ShellSort
+            //Run(new ShellSort());
+
+            // For MergeSort
+            //Run(new MergeSort());
+
+            // For HeapSort
+            //Run(new HeapSort());
+
+
+
+
+
         }
 
-        static void uTestCollection()
-        {
-            List<int> c = Utils.GetUserCollection();
-            Console.Write("{");
-            foreach (int i in c)
-            {
-                Console.Write(i + ",");
-            }
-            Console.Write("}");
-        }
-        static void uTestUI()
-        {
-            BubbleSort bubble = new BubbleSort();
-            bubble.Run();
-        }
+        static void Run(AlgoInfo activeWindow) => activeWindow.Run();
+
+
 
 
     }

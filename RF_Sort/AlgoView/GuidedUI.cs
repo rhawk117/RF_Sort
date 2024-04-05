@@ -7,23 +7,11 @@ using System.Threading.Tasks;
 
 namespace RF_Sort
 {
+    // Hardcoded information for each sorting algorithm
+    // all derived from AlgoInfo which renders the UI and 
+    // handles all of the similar UI logic 
 
-    //protected string title; // name of 
-
-    //protected string bigO; // time complexity
-
-    //protected string description; // description of the algorithm
-
-    //protected string[] steps; // steps of the algorithm
-
-    //protected List<int> WorstCaseInput = new List<int>(); // worst case input for the algorithm
-
-    //protected Action<List<int>> Sort; // sorting method
-
-    //protected string explainWorst; // explaination of the type of worst case input
-
-
-    // overrides => setInfo (ctor) , ASCIIart (custom art), ViewDescription (set avg, best and wrst case)
+    // bubble sort - cyan
     public class BubbleSort : AlgoInfo
     {
 
@@ -49,16 +37,18 @@ namespace RF_Sort
                 "The algorithm compares the current element with the next element in the array.",
                 "If the current element is greater than the next element, they are swapped with one another.",
                 "This process is repeated for all elements, making multiple passes through the list.",
-                "With each pass, the largest unsorted element and \"bubbles\" it up to the correct position at the end of the list."
+                "With each pass, the largest unsorted element and \"bubbles\" it up to the correct position at\n\t the end of the list."
             };
             this.WorstCaseInput = new List<int> { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
-            this.explainWorst = "sorted in reverse order because the algorithm must make O(n - 1) passes through the list to bubble each item.";
+            this.explainWorst = @"sorted in reverse order because the algorithm must make O(n - 1) passes 
+            through the list to bubble each item.";
             this.Sorter = Sort.BubbleSort;
 
         }
 
         protected override void ASCIIart()
         {
+            ForegroundColor = ConsoleColor.DarkCyan;
             WriteLine(@"
             ====================================================================
                 __  _           _     _     _                       _    __  
@@ -69,9 +59,11 @@ namespace RF_Sort
                 
             ====================================================================
             ");
+            ResetColor();
         }
         protected override void ViewDescription() => desc(bst: "n^2", wst: "n^2", avg: "n^2");
     }
+    // insertion sort - green
     public class InsertionSort : AlgoInfo
     {
         public InsertionSort() : base() => this.setInfo();
@@ -93,19 +85,21 @@ namespace RF_Sort
             this.steps = new string[]
             {
                 "The algorithm divides the list into two sections with a bar that starts at index 1",
-                "Everything behind the bar is the sorted section, and on each step, the bar moves one position to the right.",
+                "Everything behind the bar is the sorted section, and on each step, the bar moves one\n\t position to the right.",
                 "The first element of the list (list[0]) as it will be sorted later if it isn't",
-                "The index currently on the bar compares itself to the contents in the sorted section decrementing down",
-                "On each iteration the bar checks if it is less than the next item down if so it moves itself down",
+                "The index currently on the bar compares itself to the contents in the sorted section\n\tdecrementing down",
+                "On each iteration the bar checks if it is less than the next item down if so it moves\n\titself down",
                 "This goes on until either the bar is at index 0 or the next item down is less than the bar",
                 "This process is repeated until the list is completely sorted."
             };
             this.WorstCaseInput = new List<int> { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
-            this.explainWorst = "sorted in reverse order because the algorithm must make O(n - 1) passes through the list to select the smallest element.";
+            this.explainWorst = @"sorted in reverse order because the algorithm must make O(n - 1) passes through the 
+            list to select the smallest element.";
             this.Sorter = Sort.InsertionSort;
         }
         protected override void ASCIIart()
         {
+            ForegroundColor = ConsoleColor.DarkGreen;
             WriteLine(@"
             ====================================================================
              __  _                     _   _                              _    __  
@@ -116,9 +110,11 @@ namespace RF_Sort
                 
             ====================================================================
             ");
+            ResetColor();
         }
         protected override void ViewDescription() => desc(bst: "n^2", wst: "n^2", avg: "n^2");
     }
+    // selection sort - dark gray
     public class SelectionSort : AlgoInfo
     {
         public SelectionSort() : base()
@@ -128,8 +124,9 @@ namespace RF_Sort
         protected override void setInfo()
         {
             title = "Selection Sort";
-            this.WorstCaseInput = new List<int> { 1, 2, 3 };
-            this.explainWorst = "not applicable in this case as n^2 traversals will always occur no matter the collection order";
+            this.WorstCaseInput = new List<int> { 0, 0, 0 };
+            this.explainWorst = @"not applicable in this case as n^2 traversals will always occur no 
+            matter the collection order";
             this.Sorter = Sort.SelectionSort;
             this.bigO = "O(n^2)";
             this.description = @"
@@ -147,12 +144,13 @@ namespace RF_Sort
             this.steps = new string[]
             {
                 "The algorithm starts from the left and progresses to the right on each iteration",
-                "Then in a nested loop the smallest element on the right side is selected and replaced with the current index of the left portion",
-                "The algorithim moves one position to the right, and the process is repeated until the list is sorted"
+                "Then in a nested loop the smallest element on the right side is selected and replaced\n\t with the current index of the left portion",
+                "The algorithim moves one position to the right, and the process is repeated until the\n\t list is sorted"
             };
         }
         protected override void ASCIIart()
         {
+            ForegroundColor = ConsoleColor.DarkGray;
             WriteLine(@"
             ====================================================================
             __           _           _   _                              _    __  
@@ -166,6 +164,7 @@ namespace RF_Sort
         }
         protected override void ViewDescription() => desc(bst: "n^2", wst: "n^2", avg: "n^2");
     }
+    // shell sort - purple
     public class ShellSort : AlgoInfo
     {
         public ShellSort() : base() => this.setInfo();
@@ -198,7 +197,7 @@ namespace RF_Sort
                 "Then a nested for loop iterates through each of the gaps",
                 "A hole is then created at the last index of the gap (closer to the end of the array)",
 
-                "The algorithm then compares elements that are 'gap' distance apart by subtracting the size of the gap from the hole",
+                "The algorithm then compares elements that are 'gap' distance apart by subtracting the\n\tsize of the gap from the hole",
                 "This allows it to move & sort <gap> number of elements on each iteration.",
                 "If an item on the right is less than the item on the left, they are swapped",
                 "This continues until the last hole >= gap ",
@@ -210,12 +209,14 @@ namespace RF_Sort
             };
             this.WorstCaseInput = new List<int> { 9, 7, 5, 3, 1, 10, 8, 6, 4, 2 };
             this.Sorter = Sort.ShellSort;
-            this.explainWorst = "using a collection that inverts the gap sequence which will require more comparsions\nIn this casetThe first half contains the larger numbers in descending order and the second half contains the smaller numbers in descending order..";
+            this.explainWorst = @"using a collection that inverts the gap sequence which will require 
+            more comparsions.";
         }
         protected override void ViewDescription() => desc(bst: "nlogn", wst: "n^2", avg: "nlogn");
 
         protected override void ASCIIart()
         {
+            ForegroundColor = ConsoleColor.DarkMagenta;
             WriteLine(@"
             =======================================================
                __      _          _ _                  _    __  
@@ -226,8 +227,10 @@ namespace RF_Sort
 
             =======================================================                                                    
             ");
+            ResetColor();
         }
     }
+    // quick sort - dark yellow 
     public class QuickSort : AlgoInfo
     {
 
@@ -250,19 +253,20 @@ namespace RF_Sort
             collections where the median of 3 selects the smallest or largest element in 
             requiring more swaps.
             ";
-            this.WorstCaseInput = new List<int> { 3, 1, 4, 2, 5, 9, 7, 8, 6 };
-            this.explainWorst = "using a collection that ruins the median of 3 approach for selecting the pivot";
+            this.WorstCaseInput = new List<int> { 33, 1, 4, 2, 55, 9, 7, 8, 66 };
+            this.explainWorst = @"using a collection that ruins the median of 3 approach 
+            for selecting the pivot";
             this.Sorter = Sort.QuickSort;
             this.steps = new string[]
             {
                 "First, pick a pivot using the median of three strategy (leftmost, middle, rightmost)",
-                "These 3 elements are then sorted with the least greatest being put on the left and the greatest on the right",
+                "These 3 elements are then sorted with the least greatest being put on the left and \n\tthe greatest on the right",
                 "The median of these 3 elements is then selected as the pivot point",
                 "Then i (leftmost) and j (rightmost) are set to the left and right of the collection",
                 "i is then incremented until it finds an element greater than the pivot where it will then stop",
                 "j is then decremented until it finds an element less than the pivot where it will then stop",
                 "The elements at i and j are swapped with one another",
-                "This continues until i >= j where the stopping points of i and j are used to recursively divide the partion size",
+                "This continues until i >= j where the stopping points of i and j are used to recursively \n\tdivide the partion size",
                 "This process repeats itself until the minimum size for a sub-collection is reached",
                 "Then Insertion Sort is used to sort the now 'almost' sorted collection",
             };
@@ -271,6 +275,7 @@ namespace RF_Sort
 
         protected override void ASCIIart()
         {
+            ForegroundColor = ConsoleColor.DarkYellow;
             WriteLine(@"
             =======================================================
              __              _      _                     _    __  
@@ -281,6 +286,127 @@ namespace RF_Sort
                     |_|      
             =======================================================
             ");
+            ResetColor();
         }
     }
+    // merge sort - dark blue
+    public class MergeSort : AlgoInfo
+    {
+        public MergeSort() : base() => this.setInfo();
+
+        protected override void setInfo()
+        {
+            this.title = "Merge Sort";
+            this.bigO = "O(nlogn)";
+            this.steps = new string[]
+            {
+                "The algorithm repeatedly divides the collection into halves until the collection is of size 1",
+                "Once the collection has been divided into the smallest possible sub arrays the 'merge' begins",
+                "The merging involves comparing two elements of a smaller sub-array and merging them into\n\t a larger sorted array",
+                "This process is repeated acrosss multiple recursive calls gradualy building up the new sorted collection",
+            };
+            this.description = @"
+
+            Merge sort is a consistently efficient general purpose comparison-based sorting algorithm
+            that similar to Quick Sort utilizes a divide and conquer strategy to sort the collection.
+            The algorithm divides the collection into halves until the collection is of size 1 and then
+            merges these sub-collections in order. 
+
+            No matter the collection inputted merge sort will always operate in O(nlogn) time complexity
+            making it a consistent and reliable sorting algorithm for large data sets.
+
+            ";
+            this.WorstCaseInput = new List<int> { 0, 0, 0 };
+            this.explainWorst = @"not applicable in this case as no matter the input size the time complexity 
+            will always be the same as nlogn traversals occur no matter the collection order";
+            this.Sorter = Sort.MergeSort;
+        }
+
+        protected override void ViewDescription() => desc(bst: "nlogn", wst: "nlogn", avg: "nlogn");
+
+        protected override void ASCIIart()
+        {
+            ForegroundColor = ConsoleColor.DarkBlue;
+            WriteLine(@"
+            =============================================================
+             __                                                 _    __   
+            / /  _ __ ___   ___ _ __ __ _  ___   ___  ___  _ __| |_  \ \  
+           / /  | '_ ` _ \ / _ \ '__/ _` |/ _ \ / __|/ _ \| '__| __|  \ \ 
+           \ \  | | | | | |  __/ | | (_| |  __/ \__ \ (_) | |  | |_   / / 
+            \_\ |_| |_| |_|\___|_|  \__, |\___| |___/\___/|_|   \__| /_/  
+                                    |___/                                 
+            =============================================================
+            ");
+            ResetColor();
+        }
+    }
+    // heap sort - dark red
+    public class HeapSort : AlgoInfo
+    {
+        public HeapSort() : base() => this.setInfo();
+
+        protected override void setInfo()
+        {
+            this.title = "Heap Sort";
+            this.bigO = "O(nlogn)";
+            this.description = @"
+
+            Heap Sort is a comparison-based in-place sorting algorithm that utilizes a MAX binary heap 
+            to sort a collection. The algorithm works by first building a max heap from the collection and then
+            repeatedly extracting the maximum element from the heap at the root and places it at the end 
+            of the collection.
+            
+            The algorithim operates in constant space complexity when optimized however it is not a stable
+            sorting algorithm because it does not maintain the relative order of items with equal keys. 
+            Despite its promising time complexity, Heap Sort is not suitable for smaller data sets
+            due to it's overhead. However, overall it is an efficient sorting algorithm to consider.
+
+            ";
+            this.steps = new string[]
+            {
+                "The algorithm first builds a max heap from the collection",
+                "Then the algorithm repeatedly extracts the maximum element from the heap \n\tand places it at the end of the collection",
+                "This process is repeated until the collection is sorted"
+            };
+            this.WorstCaseInput = new List<int> { 0, 0, 0 };
+            this.explainWorst = @"not applicable in this case as no matter the input size the time 
+            complexity will always require nlogn traversals no matter the collection order";
+            this.Sorter = Sort.Heapsort;
+        }
+        protected override void ViewDescription() => desc(bst: "nlogn", wst: "nlogn", avg: "nlogn");
+        protected override void ASCIIart()
+        {
+            ForegroundColor = ConsoleColor.DarkRed;
+            WriteLine(@"
+            =============================================================
+               __  _                                       _    __   
+              / / | |__   ___  __ _ _ __    ___  ___  _ __| |_  \ \  
+             / /  | '_ \ / _ \/ _` | '_ \  / __|/ _ \| '__| __|  \ \ 
+             \ \  | | | |  __/ (_| | |_) | \__ \ (_) | |  | |_   / / 
+              \_\ |_| |_|\___|\__,_| .__/  |___/\___/|_|   \__| /_/  
+                                   |_|                               
+            ============================================================             
+            ");
+            ResetColor();
+        }
+    }
+
+
+    // IMPLEMENTATION NOTES 
+
+    //protected string title; // name of algo 
+
+    //protected string bigO; // time complexity
+
+    //protected string description; // description of the algorithm
+
+    //protected string[] steps; // steps of the algorithm
+
+    //protected List<int> WorstCaseInput = new List<int>(); // worst case input for the algorithm
+
+    //protected Action<List<int>> Sort; // sorting method
+
+    //protected string explainWorst; // explaination of the type of worst case input
+
+    // overrides => setInfo (ctor) , ASCIIart (custom art), ViewDescription (set avg, best and wrst case)
 }

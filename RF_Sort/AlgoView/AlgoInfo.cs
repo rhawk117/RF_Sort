@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -23,28 +24,9 @@ namespace RF_Sort
 
         protected string explainWorst; // explaination of the type of worst case input
 
-        public AlgoInfo(string title, string bigO, string description, string[] steps,
-        Action<List<int>> sort, List<int> worstCaseInput, string explainWorst)
-        {
-            this.title = title;
-            this.bigO = bigO;
-            this.description = description;
-            this.steps = steps;
+        public AlgoInfo() { }
 
-            Sorter = sort;
-
-            WorstCaseInput = worstCaseInput;
-            this.explainWorst = explainWorst;
-        }
-
-        public AlgoInfo()
-        {
-
-        }
-
-        protected virtual void setInfo() { }
-
-
+        // children pass in the time complexity to re use template
         protected void desc(string bst, string wst, string avg)
         {
             string summary = $@"
@@ -65,35 +47,46 @@ namespace RF_Sort
             WriteLine(summary);
         }
 
+        // meant 4 children to implement (overrides)
         protected virtual void ASCIIart() { }
+
+        // sets the different time complexity when Desc is called
         protected virtual void ViewDescription() { }
+        protected virtual void setInfo() { }
+
         public void ViewSteps()
         {
-            WriteLine($"[ Steps for {title} ]");
+            WriteLine($"\t\t[ Steps for {title} ]");
             for (int i = 0; i < steps.Length; i++)
             {
                 aStep(i);
             }
-            WriteLine("[ i ]Steps Completed [ i ]");
+            WriteLine("\t\t[i] Steps Completed - Guided Walkthrough Complete [i]");
         }
         private void aStep(int i)
         {
-            WriteLine($"[ {i + 1}. ] {steps[i]} ");
-            Thread.Sleep(3000);
+            WriteLine($"\n\t#{i + 1}. {steps[i]}\n");
+            Thread.Sleep(2500);
         }
 
         public void ViewWorstCase()
         {
-            ASCIIart();
-            WriteLine($@"
-                                WORST CASE INPUT ({title})         
-            =======================================================================
-            [ Worst Case Input for {title} is a collection that is {explainWorst}]
+            Clear();
 
-                        [ Example Worst Case Collection ]
+            WriteLine($@"
+            =======================================================================
+                                WORST CASE INPUT {title}         
+            =======================================================================
+              The Worst Case Input for {title} is a collection that is...
+              
+                >> {explainWorst}
+            
+            =======================================================================
+                    [ Example Worst Case Collection (if applicable) ]
+                >> {arrString(WorstCaseInput)}
+            =======================================================================
             ");
-            arrayTileView(WorstCaseInput);
-            Utils.enterToContinue();
+
         }
 
         public void Run()
@@ -117,9 +110,9 @@ namespace RF_Sort
                 [ S ] - View Steps
                 [ W ] - View Worst Case Input
                 [ R ] - Run {title}
-                [ E ] - Exit
+                [ E ] - Exit / Go Back
 
-            ====================================================================
+            ========================================
             ");
         }
         private void handleKeys(char c)
@@ -153,10 +146,11 @@ namespace RF_Sort
             Run();
         }
 
+        // lol
         private void youAreNaughty()
         {
             ForegroundColor = ConsoleColor.Red;
-            WriteLine("\a\a[ Select a valid option (silly) ]");
+            WriteLine("\a\a\n\n[ Select a valid option ]");
             ResetColor();
         }
 
@@ -169,105 +163,98 @@ namespace RF_Sort
               |                                                              |
               |        [ 1 ] - Random Collection                             |
               |        [ 2 ] - Custom Collection                             |
-              |        [ 3 ] - Worst Case Collection                         |
-              |        [ 4 ] - Exit                                          |
+              |        [ 3 ] - Exit                                          |
               ================================================================
             ");
+
             char input = ReadKey().KeyChar;
-            if (input == '4') return;
+
+            if (input == '3') return;
 
             else getCollection(input);
-
         }
+
         private void getCollection(char input)
         {
-            List<int> collection = new List<int>();
+            List<int> choice = new List<int>();
             switch (input)
             {
                 case '1':
-                    collection = Utils.GenerateRandom();
+                    choice = Utils.HandleRandom();
                     break;
 
                 case '2':
-                    collection = Utils.GetUserCollection();
-                    break;
-
-                case '3':
-                    collection = WorstCaseInput;
+                    choice = Utils.GetUserCollection();
                     break;
 
                 default:
-                    collection = null;
+                    choice = null;
                     break;
             }
-            if (collection == null)
+            handleSort(choice);
+        }
+        private void handleSort(List<int> choice)
+        {
+            if (choice == null)
             {
                 youAreNaughty();
-                pickCollection();
             }
             else
             {
-                sortCollection(collection);
+                runSort(choice);
+                Utils.enterToContinue();
             }
+            pickCollection(); // go back 
         }
 
-        private void sortCollection(List<int> list)
+        private void runSort(List<int> collection)
         {
-            WriteLine($"[ Pre-{title} | Unsorted Array View ]\n");
-            arrayTileView(list);
+            WriteLine($"\n\n[ {title} ]\n\n");
+            WriteLine("[ Pre-Sort ]");
+            arrView(collection);
             Utils.enterToContinue();
 
-            Sorter(list);
+            Sorter(collection);
 
-            WriteLine($"[ {title} Sort Complete | Sorted Array View ]\n");
-            arrayTileView(list);
+            WriteLine($"[ {title} Complete! ]");
+            WriteLine("[ Post-Sort ]");
+            arrView(collection);
         }
 
-        private void arrayTileView(List<int> collection)
+        private void arrView(List<int> collection)
         {
-            WriteLine("[<index>] (<value>)");
-            Write("|");
+            string view = arrString(collection);
+            WriteLine($"\n{view}\n");
+        }
+
+        private string arrString(List<int> collection)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{ ");
             for (int i = 0; i < collection.Count; i++)
             {
-                Write($" [{i}] ({collection[i]})| ");
+                sb.Append($"{collection[i]}, ");
             }
-            WriteLine();
+            sb.Append(" }");
+            return sb.ToString();
         }
 
-        // lol actions is better i just had a bruh moment trying to use the ctor 
+        public override string ToString() => title;
 
-        //private void detrSort(List<int> l)
+        //public AlgoInfo(string title, string bigO, string description, string[] steps,
+        //Action<List<int>> sort, List<int> worstCaseInput, string explainWorst)
         //{
-        //    switch(title)
-        //    {
-        //        case "Bubble Sort":
-        //            Sort.BubbleSort(l);
-        //            break;
+        //    this.title = title;
+        //    this.bigO = bigO;
+        //    this.description = description;
+        //    this.steps = steps;
 
-        //        case "Selection Sort":
-        //            Sort.SelectionSort(l);
-        //            break;
+        //    Sorter = sort;
 
-        //        case "Insertion Sort":
-        //            Sort.InsertionSort(l);
-        //            break;
-
-        //        case "Quick Sort":
-        //            Sort.QuickSort(l);
-        //            break;
-
-        //        case "Merge Sort":
-        //            Sort.MergeSort(l);
-        //            break;
-
-        //        case "Heap Sort":
-        //            Sort.Heapsort(l);
-        //            break;
-
-        //        default:
-        //            throw new 
-        //    }
+        //    WorstCaseInput = worstCaseInput;
+        //    this.explainWorst = explainWorst;
         //}
+
 
 
 

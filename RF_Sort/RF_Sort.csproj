@@ -45,8 +45,9 @@
   <ItemGroup>
     <Compile Include="AlgoView\AlgoInfo.cs" />
     <Compile Include="AlgoView\GuidedUI.cs" />
+    <Compile Include="Debug.cs" />
     <Compile Include="Homework10.cs" />
-    <Compile Include="Menu.cs" />
+    <Compile Include="AlgoUI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sort.cs" />

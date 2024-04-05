@@ -218,11 +218,12 @@ namespace RF_Sort
         //    QuickSort Algorithm
         //
         // ================================================================================
-        public static void QuickSort(List<int> aList, int stopOn = 3)
+        public static void QuickSort(List<int> aList)
         {
+            // int stopOn = 3
             Console.WriteLine("-------- QuickSort ---------");
 
-            QuickSort(aList, 0, aList.Count - 1, stopOn);
+            QuickSort(aList, 0, aList.Count - 1, 3);
             Console.WriteLine("[ After QuickSort but before it calls InsertionSort ]");
             Utils.Print(aList);
             Console.WriteLine();

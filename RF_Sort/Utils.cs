@@ -9,8 +9,22 @@ namespace RF_Sort
 {
     public static class Utils
     {
-        public static List<int> GenerateRandom(int size = 20, int min = 1, int max = 101)
+        public static List<int> HandleRandom()
         {
+            List<int> ranums = generateRandom();
+            viewCollection(ranums);
+            string prompt = "Would you like to use this collection?";
+            if (confrimChoice(prompt))
+            {
+                return ranums;
+            }
+            Console.WriteLine("[ Retrying... ]");
+            return GetUserCollection();
+        }
+
+        private static List<int> generateRandom(int size = 20, int min = 1, int max = 101)
+        {
+            Console.WriteLine("[ i ] Generating a random collection.... [ i ]");
             List<int> list = new List<int>(size);
             Random random = new Random();
             for (int i = 0; i < size; i++)
@@ -18,6 +32,14 @@ namespace RF_Sort
                 list.Add(random.Next(min, max));
             }
             return list;
+        }
+
+
+        public static bool confrimChoice(string message)
+        {
+            Console.Write($"[ ? ] {message} [ ? ]\n>> Type 'yes' to confirm or anything else for 'no' ");
+            string input = Console.ReadLine().ToLower();
+            return input[0] == 'y' || input == "yes";
         }
 
         public static List<int> GetUserCollection()
@@ -30,7 +52,7 @@ namespace RF_Sort
             List<int> userCollection = new List<int>();
             try
             {
-                userCollection = parseCollection(input);
+                userCollection = parseListput(input);
             }
             catch (Exception ex)
             {
@@ -41,7 +63,9 @@ namespace RF_Sort
             return userCollection;
         }
 
-        private static List<int> parseCollection(string input)
+
+        // ouuu fancy lambda expression
+        private static List<int> parseListput(string input)
         {
             List<int> userList = input.Split(',')
                            .Select(part => part.Trim())
@@ -60,10 +84,20 @@ namespace RF_Sort
                 throw new ArgumentException("[!] Collection provided is less than 5 numbers... [!]");
             }
             return userList;
+        }
+        private static void viewCollection(List<int> list)
+        {
+            Console.Write("{");
 
+            foreach (int item in list)
+            {
+                Console.Write($" {item}, ");
+            }
+            Console.Write("}\n");
         }
 
-
+        // NOTE ALL OF THE METHODS BELOW THIS I DID NOT MAKE 
+        // THEY WERE PROVIDED BY PROFESSOR DOWELL
 
         public static void PrintHeader(List<int> aList, int start, int stop)
         {

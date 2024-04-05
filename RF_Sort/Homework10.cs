@@ -35,7 +35,7 @@ namespace RF_Sort
             Console.WriteLine("Pre-Array");
             //printArray(quickSort);
             Console.WriteLine("_______________________________________________");
-            Sort.QuickSort(quickSort, 4);
+            Sort.QuickSort(quickSort);
             Console.WriteLine("_______________________________________________");
             Console.WriteLine("Post-Array");
             //printArray(quickSort);
